@@ -13,8 +13,9 @@ parameter ADD =0;
 parameter SUB = 1;
 parameter R_FORMAT=2;
 
-assign ALU=((funct==And)&&(ALUop==R_FORMAT))?4'b0000 : ((funct==Or)&&(ALUop==R_FORMAT))?4'b0001:((funct==add)||(ALUop==ADD))?4'b0010 :
-((funct==sub)||(ALUop==SUB))?4'b0110 : ((funct==slt)&&(ALUop==R_FORMAT))?4'b0111 :((funct==Nor)&&(ALUop==R_FORMAT))?4'b1100 :4'bxxxx;
+assign ALU=((funct==And)&&(ALUop==R_FORMAT))?4'b0000 : ((funct==Or)&&(ALUop==R_FORMAT))?4'b0001:
+(((ALUop==ADD))||((funct==add)&&(ALUop==R_FORMAT)))?4'b0010 :(((ALUop==SUB))||((funct==sub)&&(ALUop==R_FORMAT)))?4'b0110 : 
+((funct==slt)&&(ALUop==R_FORMAT))?4'b0111 :((funct==Nor)&&(ALUop==R_FORMAT))?4'b1100 :4'bxxxx;
 endmodule
 
 module ALUcontrolTest;
@@ -34,6 +35,10 @@ funct=34;ALUop=1;
 funct=42;ALUop=2;
 #10
 funct=39;ALUop=2;
+#10
+funct=34;ALUop=0;
+#10
+funct=0;ALUop=0;
 end
 ALUcontrol A1(funct,ALUop, ALU);
 endmodule
