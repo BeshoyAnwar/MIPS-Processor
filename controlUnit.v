@@ -1,22 +1,24 @@
-module Control(input [0:5]op,output RegDst,output Branch,output MemRead,output MemtoReg,output [0:1]ALUOp,output MemWrite,output ALUSrc,output RegWrite);
+module Control(input [5:0]op,output RegDst,output Jump,output Branch,output MemRead,output MemtoReg,output [1:0]ALUOp,output MemWrite,output ALUSrc,output RegWrite);
 parameter R_format=0;
 parameter Beq=4;
 parameter Lw=35;
 parameter Sw=43;
+parameter J=2;
 assign RegDst=(op==R_format)? 1'b1 : (op==Lw)? 1'b0 : 1'bx;
-assign Branch=(op==Beq)? 1'b1 : 1'b0;
+assign Jump=(op==J)? 1'b1 : 1'b0;
+assign Branch=(op==Beq)? 1'b1 : (op==J)? 1'bx : 1'b0;
 assign MemRead=(op==Lw)? 1'b1 : 1'b0;
 assign MemtoReg=(op==R_format)? 1'b0:(op==Lw)? 1'b1 : 1'bx;
-assign ALUOp=(op==Beq)? 2'b01 : (op==R_format)? 2'b10 : 2'b00;
+assign ALUOp=(op==Beq)? 2'b01 : (op==R_format)? 2'b10 : (op==J)? 2'bxx : 2'b00;
 assign MemWrite=(op==Sw)? 1'b1 : 1'b0;
-assign ALUSrc=(op==Lw||op==Sw)? 1'b1 :  1'b0;
+assign ALUSrc=(op==Lw||op==Sw)? 1'b1 : (op==J)? 1'bx : 1'b0;
 assign RegWrite=(op==R_format||op==Lw)? 1'b1 : 1'b0;
 endmodule
 module ControlTest;
-reg [0:5]op;wire [0:1]ALUOp;wire RegDst, Branch, MemRead, MemtoReg, MemWrite, ALUSrc, RegWrite;
+reg [5:0]op;wire [1:0]ALUOp;wire RegDst,Jump, Branch, MemRead, MemtoReg, MemWrite, ALUSrc, RegWrite;
 initial
 begin
-$monitor("RegDst=%b ALUSrc=%b MemtoReg=%b RegWrite=%b MemRead=%b MemWrite=%b Branch=%b ALUOp=%b",RegDst,ALUSrc,MemtoReg,RegWrite,MemRead,MemWrite,Branch,ALUOp);
+$monitor("RegDst=%b ALUSrc=%b MemtoReg=%b RegWrite=%b MemRead=%b MemWrite=%b Branch=%b ALUOp=%b Jump=%b",RegDst,ALUSrc,MemtoReg,RegWrite,MemRead,MemWrite,Branch,ALUOp,Jump);
 #10
 op=0;
 #10
@@ -25,6 +27,8 @@ op=35;
 op=43;
 #10
 op=4;
+#10
+op=2;
 end
-Control controlUnit(op, RegDst, Branch, MemRead, MemtoReg, ALUOp, MemWrite, ALUSrc, RegWrite);
+Control controlUnit(op, RegDst,Jump, Branch, MemRead, MemtoReg, ALUOp, MemWrite, ALUSrc, RegWrite);
 endmodule
