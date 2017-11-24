@@ -6,17 +6,17 @@ endmodule
 
 module signextend1632_tb;
 
-    reg [15:0] in;
-    wire [31:0] extended;
+	reg [15:0] in;
+	wire [31:0] extended;
 
 	initial begin
 
 		$monitor ("in=%b extended=%b", in, extended);
 
 		#10 in = 5;
-        #10 in = -19;
-        #10 in = -93;
-        #10 in = 25;
+		#10 in = -19;
+		#10 in = -93;
+		#10 in = 25;
 
 	end
 
