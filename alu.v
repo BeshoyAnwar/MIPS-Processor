@@ -4,8 +4,8 @@ module alu (input signed [31:0] in1, input signed [31:0] in2, input [3:0] opCode
 		  OR  = 4'b0001,
 		  ADD = 4'b0010,
 		  SUB = 4'b0110,
-		  SLL = 4'b,
-		  SRL = 4'b,
+		  SLL = 4'b0100,
+		  SRL = 4'b0101,
 		  SLT = 4'b0111,
 		  NOR = 4'b1100,
 
