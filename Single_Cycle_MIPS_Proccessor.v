@@ -22,7 +22,7 @@ wire [31:0]PC_target_fetched_branch;
 PC single_cycle_PC (PC_Output, PC_Input , reset , clk );
 insMemory single_cycle_Instruction_Memory ( PC_Output[9:0] , Instruction ); 
 adder PC_adder ( PC_Output , 4 , Fetched_PC );
-Control single_cycle_Control_unit (Instruction[5:0], RegDst, Jump , Branch , MemRead ,MemtoReg , ALUOp , MemWrite , ALUSrc , RegWrite );
+Control single_cycle_Control_unit (Instruction[31:26], RegDst, Jump , Branch , MemRead ,MemtoReg , ALUOp , MemWrite , ALUSrc , RegWrite );
 mux Wirte_Register_Mux (RegDst ,  Instruction[20:16] ,  Instruction[15:11] , write_register);
 ShiftLeftJump Shift_Left_Jump_address( Instruction[25:0] ,  jumpaddress[27:0]);
 registerFile single_cycle_MIPS_registers (RegWrite, write_register, WriteData,Instruction[25:21] , read_data_1, Instruction[20:16], read_data_2, clk);
@@ -40,7 +40,6 @@ mux Jump_address_mux (Jump , PC_target_fetched_branch , {Fetched_PC[31:28],jumpa
 endmodule
 
 
-
 module MIPS_Poccessor_single_cycle_tb ;
 
 reg clk , reset ;
@@ -50,8 +49,8 @@ always begin #5 clk = ~clk; end
 initial
 begin
 $monitor ("overflow=%d",overflow);
-
-
+clk=0;
+reset=0;
 end
 Single_Cycle_MIPS_Proccessor Single_Cycle_MIPS_Proccessor_TEST (clk , reset,overflow);
 
