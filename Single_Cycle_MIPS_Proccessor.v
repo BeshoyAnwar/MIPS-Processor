@@ -1,4 +1,4 @@
-module Single_Cycle_MIPS_Proccessor (input clk , output overflow);
+module Single_Cycle_MIPS_Proccessor (input clk ,input reset, output overflow);
 
 wire [31:0] PC_Input;
 wire [31:0] PC_Output;
@@ -19,7 +19,7 @@ wire Branch_control_Signal;
 wire [31:0]PC_target_fetched_branch;
 
 
-PC single_cycle_PC ( PC_Input , PC_Output );
+PC single_cycle_PC (PC_Output, PC_Input , reset , clk );
 insMemory single_cycle_Instruction_Memory ( PC_Output[9:0] , Instruction ); 
 adder PC_adder ( PC_Output , 4 , Fetched_PC );
 Control single_cycle_Control_unit (Instruction[5:0], RegDst, Jump , Branch , MemRead ,MemtoReg , ALUOp , MemWrite , ALUSrc , RegWrite );
