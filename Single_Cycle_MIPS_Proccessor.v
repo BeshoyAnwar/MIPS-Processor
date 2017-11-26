@@ -20,7 +20,7 @@ wire [31:0]PC_target_fetched_branch;
 
 
 PC single_cycle_PC (PC_Output, PC_Input , reset , clk );
-insMemory single_cycle_Instruction_Memory ( PC_Output[9:0] , Instruction ); 
+insMemory single_cycle_Instruction_Memory ( PC_Output[9:0]>> 2 , Instruction ); 
 adder PC_adder ( PC_Output , 4 , Fetched_PC );
 Control single_cycle_Control_unit (Instruction[31:26], RegDst, Jump , Branch , MemRead ,MemtoReg , ALUOp , MemWrite , ALUSrc , RegWrite );
 mux Wirte_Register_Mux (RegDst ,  Instruction[20:16] ,  Instruction[15:11] , write_register);
