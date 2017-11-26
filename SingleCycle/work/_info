@@ -1,0 +1,574 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Modeltech_pe_edu_10.4a/examples
+vadder
+Z0 !s110 1511688775
+!i10b 1
+!s100 CRC;?=L^1L<6g^[0IOmVZ1
+IaPNTa=li:_Cj`hD<zSmEc1
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+Z2 dC:/Modeltech_pe_edu_10.4a/examples/SingleCycle
+Z3 w1511657399
+Z4 8C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/adder.v
+Z5 FC:/Modeltech_pe_edu_10.4a/examples/SingleCycle/adder.v
+L0 1
+Z6 OP;L;10.4a;61
+r1
+!s85 0
+31
+Z7 !s108 1511688775.000000
+Z8 !s107 C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/adder.v|
+Z9 !s90 -reportprogress|300|-work|work|-stats=none|C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/adder.v|
+!s101 -O0
+!i113 1
+Z10 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact -O0
+vadder_tb
+R0
+!i10b 1
+!s100 6E3iI6Rm04JngAbhe0W>73
+IZV5[nV2cYf;2HSA9SaSLG0
+R1
+R2
+R3
+R4
+R5
+L0 9
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!s101 -O0
+!i113 1
+R10
+valu
+R0
+!i10b 1
+!s100 HMZd6W?nXZ2mB;0EA9oL[1
+I>6IZ2Imhh<LQBj3Fi6ib@0
+R1
+R2
+Z11 w1511510066
+Z12 8C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/alu.v
+Z13 FC:/Modeltech_pe_edu_10.4a/examples/SingleCycle/alu.v
+L0 1
+R6
+r1
+!s85 0
+31
+R7
+Z14 !s107 C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/alu.v|
+Z15 !s90 -reportprogress|300|-work|work|-stats=none|C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/alu.v|
+!s101 -O0
+!i113 1
+R10
+valu_tb
+R0
+!i10b 1
+!s100 R;J7ffm40R<21mbfD2Q?72
+I^eTgb`zcXDb_h3j4M@_Pi0
+R1
+R2
+R11
+R12
+R13
+L0 31
+R6
+r1
+!s85 0
+31
+R7
+R14
+R15
+!s101 -O0
+!i113 1
+R10
+vALUcontrol
+Z16 !s110 1511688776
+!i10b 1
+!s100 WUjXK6;HHWh`U=XH[Dg<72
+I;dG^KHSX`;kfSm?_icS=01
+R1
+R2
+Z17 w1511509632
+Z18 8C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ALUcontrol.v
+Z19 FC:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ALUcontrol.v
+L0 1
+R6
+r1
+!s85 0
+31
+Z20 !s108 1511688776.000000
+Z21 !s107 C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ALUcontrol.v|
+Z22 !s90 -reportprogress|300|-work|work|-stats=none|C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ALUcontrol.v|
+!s101 -O0
+!i113 1
+R10
+n@a@l@ucontrol
+vALUcontrolTest
+R16
+!i10b 1
+!s100 YzUAzJZZTC7<8Hhk1FjGc3
+I2Vk`VE3cNzPj@Bg3:^Q;V3
+R1
+R2
+R17
+R18
+R19
+L0 21
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!s101 -O0
+!i113 1
+R10
+n@a@l@ucontrol@test
+vControl
+R0
+!i10b 1
+!s100 Q?jZXbeMMG`NM5MbMOToC3
+I>T6b=O9KLT:H;SAe?:DPc2
+R1
+R2
+Z23 w1511683115
+Z24 8C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/controlUnit.v
+Z25 FC:/Modeltech_pe_edu_10.4a/examples/SingleCycle/controlUnit.v
+L0 1
+R6
+r1
+!s85 0
+31
+R7
+Z26 !s107 C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/controlUnit.v|
+Z27 !s90 -reportprogress|300|-work|work|-stats=none|C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/controlUnit.v|
+!s101 -O0
+!i113 1
+R10
+n@control
+vControlTest
+R0
+!i10b 1
+!s100 Rfcd6dWAQOS]^fMk1GHFP1
+I>76Ff4ES6KPL:hAm4KZGU0
+R1
+R2
+R23
+R24
+R25
+L0 18
+R6
+r1
+!s85 0
+31
+R7
+R26
+R27
+!s101 -O0
+!i113 1
+R10
+n@control@test
+vdataMemory
+R0
+!i10b 1
+!s100 lTQERfJk6XT2mf_Cjo;H03
+I[GL7?><=VZEOeJmheQl113
+R1
+R2
+R11
+Z28 8C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/data-memory.v
+Z29 FC:/Modeltech_pe_edu_10.4a/examples/SingleCycle/data-memory.v
+L0 1
+R6
+r1
+!s85 0
+31
+R7
+Z30 !s107 C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/data-memory.v|
+Z31 !s90 -reportprogress|300|-work|work|-stats=none|C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/data-memory.v|
+!s101 -O0
+!i113 1
+R10
+ndata@memory
+vdataMemory_tb
+R0
+!i10b 1
+!s100 `8V8h8D3D5gfKF6zI:<:c1
+IYV1RME7QaK2P>Fkm8=LOz0
+R1
+R2
+R11
+R28
+R29
+L0 13
+R6
+r1
+!s85 0
+31
+R7
+R30
+R31
+!s101 -O0
+!i113 1
+R10
+ndata@memory_tb
+vinsMemory
+R0
+!i10b 1
+!s100 meFdlz5BA_AJ0S@AMe3@B2
+IFXWgUA_;K1Glze2Pk[7M`3
+R1
+R2
+Z32 w1511623179
+Z33 8C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/instruction-memory.v
+Z34 FC:/Modeltech_pe_edu_10.4a/examples/SingleCycle/instruction-memory.v
+L0 1
+R6
+r1
+!s85 0
+31
+R7
+Z35 !s107 C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/instruction-memory.v|
+Z36 !s90 -reportprogress|300|-work|work|-stats=none|C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/instruction-memory.v|
+!s101 -O0
+!i113 1
+R10
+nins@memory
+vinsMemory_tb
+R0
+!i10b 1
+!s100 7QQ^<6Eczc5EGb7oPN;A;0
+IdM:bh96O]OdXAUkjiDggX0
+R1
+R2
+R32
+R33
+R34
+L0 12
+R6
+r1
+!s85 0
+31
+R7
+R35
+R36
+!s101 -O0
+!i113 1
+R10
+nins@memory_tb
+vMIPS_Poccessor_single_cycle_tb
+Z37 !s110 1511688777
+!i10b 1
+!s100 Y``80Rg;n:?I00`QmSYD20
+I0Rk9j??kHh[Mc1l2X2ai>3
+R1
+R2
+Z38 w1511688401
+Z39 8C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/Single_Cycle_MIPS_Proccessor.v
+Z40 FC:/Modeltech_pe_edu_10.4a/examples/SingleCycle/Single_Cycle_MIPS_Proccessor.v
+L0 43
+R6
+r1
+!s85 0
+31
+Z41 !s108 1511688777.000000
+Z42 !s107 C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/Single_Cycle_MIPS_Proccessor.v|
+Z43 !s90 -reportprogress|300|-work|work|-stats=none|C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/Single_Cycle_MIPS_Proccessor.v|
+!s101 -O0
+!i113 1
+R10
+n@m@i@p@s_@poccessor_single_cycle_tb
+vmux
+R16
+!i10b 1
+!s100 l@5cWCoU@OY@RPaMHfdS?0
+IS]PkA=DajiYMD9zDSfXbJ0
+R1
+R2
+Z44 w1511681809
+Z45 8C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/mux.v
+Z46 FC:/Modeltech_pe_edu_10.4a/examples/SingleCycle/mux.v
+L0 1
+R6
+r1
+!s85 0
+31
+R20
+Z47 !s107 C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/mux.v|
+Z48 !s90 -reportprogress|300|-work|work|-stats=none|C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/mux.v|
+!s101 -O0
+!i113 1
+R10
+vmux_tb
+R16
+!i10b 1
+!s100 ?=o[K?EZ[L=SoEZTnUD8S3
+Ib4kFSj_7@4e4n`k=zMDV_0
+R1
+R2
+R44
+R45
+R46
+L0 8
+R6
+r1
+!s85 0
+31
+R20
+R47
+R48
+!s101 -O0
+!i113 1
+R10
+vPC
+Z49 !s110 1511688883
+!i10b 1
+!s100 [z=X[ekYcYYCkC?SQMOeU3
+Ih4H]GDCf7XD_9[U4R^B5L1
+R1
+R2
+Z50 w1511681989
+Z51 8C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/PC.v
+Z52 FC:/Modeltech_pe_edu_10.4a/examples/SingleCycle/PC.v
+L0 1
+R6
+r1
+!s85 0
+31
+Z53 !s108 1511688883.000000
+Z54 !s107 C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/PC.v|
+Z55 !s90 -reportprogress|300|-work|work|-stats=none|C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/PC.v|
+!s101 -O0
+!i113 1
+R10
+n@p@c
+vPC_test
+R49
+!i10b 1
+!s100 E`^VUE0jHIjL`Y`_eYfD[0
+IlXO<;VM2P`EACF=5S53g^2
+R1
+R2
+R50
+R51
+R52
+L0 15
+R6
+r1
+!s85 0
+31
+R53
+R54
+R55
+!s101 -O0
+!i113 1
+R10
+n@p@c_test
+vregisterFile
+R16
+!i10b 1
+!s100 zgNLi7jIDEDn:TB?h^DCi0
+IgdILDd<IA>jT=^<Q5h<>P3
+R1
+R2
+Z56 w1511688677
+Z57 8C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/register-file.v
+Z58 FC:/Modeltech_pe_edu_10.4a/examples/SingleCycle/register-file.v
+L0 1
+R6
+r1
+!s85 0
+31
+R20
+Z59 !s107 C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/register-file.v|
+Z60 !s90 -reportprogress|300|-work|work|-stats=none|C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/register-file.v|
+!s101 -O0
+!i113 1
+R10
+nregister@file
+vregisterFile_tb
+R16
+!i10b 1
+!s100 L5I45MF_ISzWEA16][j5:0
+IcbZTHU<lAD2Z8ncC=l1AI1
+R1
+R2
+R56
+R57
+R58
+L0 14
+R6
+r1
+!s85 0
+31
+R20
+R59
+R60
+!s101 -O0
+!i113 1
+R10
+nregister@file_tb
+vShiftLeftBranch
+R16
+!i10b 1
+!s100 N:ed>zH]QdejWAa2Kl:;h2
+I=:5YBcHX3KCKEMjOX^]5Z3
+R1
+R2
+R17
+Z61 8C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ShiftLeftBranch.v
+Z62 FC:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ShiftLeftBranch.v
+L0 1
+R6
+r1
+!s85 0
+31
+R20
+Z63 !s107 C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ShiftLeftBranch.v|
+Z64 !s90 -reportprogress|300|-work|work|-stats=none|C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ShiftLeftBranch.v|
+!s101 -O0
+!i113 1
+R10
+n@shift@left@branch
+vShiftLeftBranchTest
+R16
+!i10b 1
+!s100 [KLJOEnWMZYIl6^28Tl:F1
+IMfk6o4jFFl9Tm@=eVJcL;3
+R1
+R2
+R17
+R61
+R62
+L0 5
+R6
+r1
+!s85 0
+31
+R20
+R63
+R64
+!s101 -O0
+!i113 1
+R10
+n@shift@left@branch@test
+vShiftLeftJump
+R37
+!i10b 1
+!s100 QcL]fe3EMSDcHkCRiJ=O12
+INSK;VoRh1DB`UbRgIWmF13
+R1
+R2
+R17
+Z65 8C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ShiftLeftJump.v
+Z66 FC:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ShiftLeftJump.v
+L0 1
+R6
+r1
+!s85 0
+31
+R20
+Z67 !s107 C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ShiftLeftJump.v|
+Z68 !s90 -reportprogress|300|-work|work|-stats=none|C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ShiftLeftJump.v|
+!s101 -O0
+!i113 1
+R10
+n@shift@left@jump
+vShiftLeftJumpTest
+R37
+!i10b 1
+!s100 i;QQTHFSJ6jU97J9fSDWU0
+IFG0J:>J>AT2PoPl67L7fS1
+R1
+R2
+R17
+R65
+R66
+L0 5
+R6
+r1
+!s85 0
+31
+R20
+R67
+R68
+!s101 -O0
+!i113 1
+R10
+n@shift@left@jump@test
+vsignextend1632
+R16
+!i10b 1
+!s100 XEXjJC@a_V4MPg@07Czgj2
+IF>j5fEG>f>n6aY?BRAMd00
+R1
+R2
+R11
+Z69 8C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/sign-extend.v
+Z70 FC:/Modeltech_pe_edu_10.4a/examples/SingleCycle/sign-extend.v
+L0 1
+R6
+r1
+!s85 0
+31
+R20
+Z71 !s107 C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/sign-extend.v|
+Z72 !s90 -reportprogress|300|-work|work|-stats=none|C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/sign-extend.v|
+!s101 -O0
+!i113 1
+R10
+vsignextend1632_tb
+R16
+!i10b 1
+!s100 zGTNhDATiifze_AEQ^D1<1
+I]`AXVD>eA<G>QP<U5zhDL1
+R1
+R2
+R11
+R69
+R70
+L0 7
+R6
+r1
+!s85 0
+31
+R20
+R71
+R72
+!s101 -O0
+!i113 1
+R10
+vSingle_Cycle_MIPS_Proccessor
+R37
+!i10b 1
+!s100 P?Tne;h1b0CIS9Zl41EWC2
+Io2VYjSU_IP^eSa@5;T<l03
+R1
+R2
+R38
+R39
+R40
+L0 1
+R6
+r1
+!s85 0
+31
+R41
+R42
+R43
+!s101 -O0
+!i113 1
+R10
+n@single_@cycle_@m@i@p@s_@proccessor

@@ -1,0 +1,97 @@
+C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ALUcontrol.v {1 {vlog -work work -stats=none C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ALUcontrol.v
+Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
+-- Compiling module ALUcontrol
+-- Compiling module ALUcontrolTest
+
+Top level modules:
+	ALUcontrolTest
+
+} {} {}} C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ShiftLeftJump.v {1 {vlog -work work -stats=none C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ShiftLeftJump.v
+Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
+-- Compiling module ShiftLeftJump
+-- Compiling module ShiftLeftJumpTest
+
+Top level modules:
+	ShiftLeftJumpTest
+
+} {} {}} C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/data-memory.v {1 {vlog -work work -stats=none C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/data-memory.v
+Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
+-- Compiling module dataMemory
+-- Compiling module dataMemory_tb
+
+Top level modules:
+	dataMemory_tb
+
+} {} {}} C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/instruction-memory.v {1 {vlog -work work -stats=none C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/instruction-memory.v
+Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
+-- Compiling module insMemory
+-- Compiling module insMemory_tb
+
+Top level modules:
+	insMemory_tb
+
+} {} {}} C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/controlUnit.v {1 {vlog -work work -stats=none C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/controlUnit.v
+Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
+-- Compiling module Control
+-- Compiling module ControlTest
+
+Top level modules:
+	ControlTest
+
+} {} {}} C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/register-file.v {1 {vlog -work work -stats=none C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/register-file.v
+Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
+-- Compiling module registerFile
+-- Compiling module registerFile_tb
+
+Top level modules:
+	registerFile_tb
+
+} {} {}} C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/alu.v {1 {vlog -work work -stats=none C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/alu.v
+Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
+-- Compiling module alu
+-- Compiling module alu_tb
+
+Top level modules:
+	alu_tb
+
+} {} {}} C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/mux.v {1 {vlog -work work -stats=none C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/mux.v
+Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
+-- Compiling module mux
+-- Compiling module mux_tb
+
+Top level modules:
+	mux_tb
+
+} {} {}} C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/Single_Cycle_MIPS_Proccessor.v {1 {vlog -work work -stats=none C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/Single_Cycle_MIPS_Proccessor.v
+Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
+-- Compiling module Single_Cycle_MIPS_Proccessor
+-- Compiling module MIPS_Poccessor_single_cycle_tb
+
+Top level modules:
+	MIPS_Poccessor_single_cycle_tb
+
+} {} {}} C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/sign-extend.v {1 {vlog -work work -stats=none C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/sign-extend.v
+Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
+-- Compiling module signextend1632
+-- Compiling module signextend1632_tb
+
+Top level modules:
+	signextend1632_tb
+
+} {} {}} C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ShiftLeftBranch.v {1 {vlog -work work -stats=none C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/ShiftLeftBranch.v
+Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
+-- Compiling module ShiftLeftBranch
+-- Compiling module ShiftLeftBranchTest
+
+Top level modules:
+	ShiftLeftBranchTest
+
+} {} {}} C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/adder.v {1 {vlog -work work -stats=none C:/Modeltech_pe_edu_10.4a/examples/SingleCycle/adder.v
+Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
+-- Compiling module adder
+-- Compiling module adder_tb
+
+Top level modules:
+	adder_tb
+
+} {} {}}
