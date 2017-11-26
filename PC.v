@@ -1,12 +1,11 @@
 module PC (output reg [31:0] nextPC , input [31:0] prevPC ,input Reset, input clk);
 
 initial
-begin
 nextPC=32'b0;
-end
+
 
 always @(posedge clk or posedge Reset)
-assign nextPC = ((Reset == 1) ? 32'b0 : prevPC[31:0]) ;
+nextPC <= ((Reset == 1) ? 32'b0 : prevPC[31:0]) ;
 
 endmodule
 
