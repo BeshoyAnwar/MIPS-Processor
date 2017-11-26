@@ -8,6 +8,7 @@ module registerFile (input wrEnable, input [4:0] wrReg, input [31:0] wrData, inp
 	always @(posedge clk)
 		if (wrEnable)
 			regFile[wrReg] <= wrData;
+	initial regFile[0] = 32'h 0;
 
 endmodule
 
