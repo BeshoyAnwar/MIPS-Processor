@@ -5,7 +5,7 @@ module ExeForwardingUnit(input Ex_MemRegWrite,input [4:0]Ex_MemRegisterRd,input 
 
 initial
 begin
-	forwardA=0;forwardB=0;//$monitor($time,"forwardA=%b forwardB=%b Ex_MemRegWrite=%b Ex_MemRegisterRd=%d Mem_WbRegWrite=%b Mem_WbRegisterRd=%d ID_ExRegisterRs=%d ID_ExRegisterRt=%d",forwardA,forwardB,Ex_MemRegWrite,Ex_MemRegisterRd,Mem_WbRegWrite,Mem_WbRegisterRd,ID_ExRegisterRs,ID_ExRegisterRt);
+	forwardA=0;forwardB=0;
 end
 always@(*)
 begin
