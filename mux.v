@@ -7,6 +7,6 @@ endmodule
 module mux5bits (input selCh, input [4:0] inCh0, input [4:0] inCh1, output [4:0] selData);
 
 	assign selData = selCh == 0 ? inCh0 : 
-                     selCh == 1 ? inCh1 : 0
+                     selCh == 1 ? inCh1 : 0;
 
 endmodule
