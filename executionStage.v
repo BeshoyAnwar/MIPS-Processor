@@ -44,79 +44,59 @@ module executionStage (input clk,input [135:0]IDEXReg,input [37:0]MEMWBReg, outp
 	alu exeAlu ( ALUFirstOperand , ALUSecondOperand , ALUcontrolSignal, shiftAmt ,ALUResult, overflowFlag ,  ALUZeroflag );
 	mux5bits WriteRegisterMux (RegDst , ID_EXRegisterRt , ID_EXRegisterRd , writeRegister);
 	ExeForwardingUnit forwardunit( EX_MEMRegWrite, EX_MEMRegisterRd, ID_EXRegisterRs, ID_EXRegisterRt, MEM_WBRegWrite, MEM_WBRegisterRd, forwardA, forwardB);
-	always @(posedge clk)begin
-//#5
-		EXMEMReg={RegWrite,MemWrite,MemToReg,MemRead,overflowFlag,ALUZeroflag,writeRegister,ALUResult,ALUResult};end
-/* EXMEMReg[31:0]<=ALUResult;
-EXMEMReg[63:32]<=readData2;
-EXMEMReg[68:64]<=writeRegister;
-EXMEMReg[69]<=ALUZeroflag;
-EXMEMReg[70]<=overflowFlag;
-EXMEMReg[71]<=MemRead;
-EXMEMReg[72]<=MemToReg;
-EXMEMReg[73]<=MemWrite;
-EXMEMReg[74]<=RegWrite;
-//{RegWrite,MemWrite,MemToReg,MemRead,overflowFlag,ALUZeroflag,writeRegister,ALUResult,ALUResult};*/
-	/*initial
-		$monitor("ALUResult=%d forwardA=%b forwardB=%b",ALUResult,forwardA,forwardB);*/
+	always @(posedge clk)
+		EXMEMReg={RegWrite,MemWrite,MemToReg,MemRead,overflowFlag,ALUZeroflag,writeRegister,readData2,ALUResult};
+
 
 
 endmodule
 
 module executionTest();
-reg [135:0]IDEXReg;reg [37:0]MEMWBReg;
+reg signed[135:0]IDEXReg;reg signed[37:0]MEMWBReg;
 wire [74:0]EXMEMReg;reg clk=0;
 always
 #5clk=!clk;
 
 initial
 begin
-$monitor($time,"result=%d data2=%d writeReg=%d zeroFlag=%d OVRFFlag=%d MemRead=%d MemToReg=%d MemWrite=%d RegWrite=%d rs=%d",EXMEMReg[31:0],EXMEMReg[63:32],EXMEMReg[68:64],EXMEMReg[69],EXMEMReg[70],EXMEMReg[71],EXMEMReg[72],EXMEMReg[73],EXMEMReg[74],IDEXReg[25:21]);
+$monitor($time,"result=%d data2=%d writeReg=%d zeroFlag=%d OVRFFlag=%d MemRead=%d MemToReg=%d MemWrite=%d RegWrite=%d rs=%d forwardDatafromMEM=%d",$signed(EXMEMReg[31:0]),EXMEMReg[63:32],EXMEMReg[68:64],EXMEMReg[69],EXMEMReg[70],EXMEMReg[71],EXMEMReg[72],EXMEMReg[73],EXMEMReg[74],IDEXReg[25:21],MEMWBReg[31:0]);
+// make memWBrd $s2 and its data =165 with MemWB.regwrite=1
 MEMWBReg[31:0]=165;
 MEMWBReg[36:32]=18;
-MEMWBReg[37]=1;
+MEMWBReg[37]=1; 
+// add instruction with rs has the same memWBrd=$s2 then forwarding from mem to alu at branch A
 #10
 IDEXReg[31:0]=32'h02538820;//instruction add $s1,$s2,$s3
 IDEXReg[63:32]=5;//data1
-IDEXReg[95:64]=5;//data2
+IDEXReg[95:64]=10;//data2
 IDEXReg[127:96]=10;//immediate extended
 IDEXReg[135:128]=8'b10010001;//control for R-format
-
+// add instruction with rt has the same ExEMemrd=$s1 then forwarding from alu to alu at branch B
 #10
-
-IDEXReg[31:0]=32'h02329820;//instruction add $s3,$s1,$s2
-IDEXReg[63:32]=5;//data1
+IDEXReg[31:0]=32'h02519820;//instruction add $s3,$s2,$s1
+IDEXReg[63:32]=-15;//data1
 IDEXReg[95:64]=7;//data2
 IDEXReg[127:96]=10;//immediate extended
 IDEXReg[135:128]=8'b10010001;//control for R-format
-MEMWBReg[31:0]=165189;
+MEMWBReg[31:0]=189;
 MEMWBReg[36:32]=17;
 MEMWBReg[37]=1;
+// sub instruction with rt has the same ExEMemrd=$s3 then forwarding from alu to alu at branch B
 #10
-IDEXReg[31:0]=32'h02538820;//instruction add $s1 $s2 $s3
+IDEXReg[31:0]=32'h02538822;//instruction sub $s1 $s2 $s3
 IDEXReg[63:32]=5;//data1
 IDEXReg[95:64]=7;//data2
 IDEXReg[127:96]=10;//immediate extended
 IDEXReg[135:128]=8'b10010001;//control for R-format
-/*MEMWBReg[31:0]=165189;
-MEMWBReg[36:32]=17;
-MEMWBReg[37]=1;*/
-
-
-
-/*
-#5
-IDEXReg[31:0]=32'h02568820;//instruction add $s1 $s2 $s6
-IDEXReg[63:32]=5;//data1
-IDEXReg[95:64]=7;//data2
-IDEXReg[127:96]=10;//immediate extended
-IDEXReg[135:128]=8'b10010001;//control for R-format
-MEMWBReg[31:0]=165189;
-MEMWBReg[36:32]=17;
-MEMWBReg[37]=1;*/
+// trivial sub instruction with rs=5 and rt=7 depends on the previous data but there no forwarding
+#10
+IDEXReg[31:0]=32'h02538822;
+MEMWBReg[31:0]=111;
+MEMWBReg[36:32]=22;
+MEMWBReg[37]=1;
 #10
 // farwarding from mem to alu (rs)
-IDEXReg[31:0]=32'h02CB6825;//instruction sub $s1,$s2,$s1
+IDEXReg[31:0]=32'h02CB6825;//instruction OR $t5 $s6 $t3
 IDEXReg[63:32]=13;//data1
 IDEXReg[95:64]=9;//data2
 IDEXReg[127:96]=9;//immediate extended
@@ -124,17 +104,27 @@ IDEXReg[135:128]=8'b10010001;//control for R-format
 MEMWBReg[31:0]=111;
 MEMWBReg[36:32]=22;
 MEMWBReg[37]=1;
-/*#10
-MEMWBReg[31:0]=111;
-MEMWBReg[36:32]=22;
-MEMWBReg[37]=1;
-
-IDEXReg[31:0]=32'h02328820;//instruction sub $s1,$s2,$s3
+// trivial sub 13-9
+#10
+IDEXReg[31:0]=32'h02518822;//instruction sub $s1 $s2 $s1
 IDEXReg[63:32]=13;//data1
 IDEXReg[95:64]=9;//data2
 IDEXReg[127:96]=9;//immediate extended
-IDEXReg[135:128]=8'b10010001;//control for R-format*/
-
+IDEXReg[135:128]=8'b10010001;//control for R-format
+// trivial sll 10 by 2
+#10
+IDEXReg[31:0]=32'h00114880;//instruction sll $t1,$s1,2
+IDEXReg[63:32]=10;//data1
+IDEXReg[95:64]=9;//data2
+IDEXReg[127:96]=9;//immediate extended
+IDEXReg[135:128]=8'b10010001;//control for R-format
+// lw data1+immediate
+#10
+IDEXReg[31:0]=32'h8e510064;//instruction lw $s1, 100($s2)
+IDEXReg[63:32]=16;//data1
+IDEXReg[95:64]=9;//data2
+IDEXReg[127:96]=-16;//immediate extended
+IDEXReg[135:128]=8'b01100011;//control for lw
 end
 
 
