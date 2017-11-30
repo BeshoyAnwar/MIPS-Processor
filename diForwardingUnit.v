@@ -1,39 +1,47 @@
+
 module diForwardingUnit (input [4:0] regFileReadReg1, input [4:0] regFileReadReg2, input [5:0] operation, input EXMEWriteSignal, input [4:0] EXMEWriteReg, input MEWBWriteSignal, input [4:0] MEWBWriteReg, output reg[1:0] regFileRead1MuxSignal, output reg[1:0] regFileRead2MuxSignal);
 
 	parameter beqOperation = 6'b000100,
-			  frwrdFromEXMEM = 1'b0,
-			  frwrdFromMEMWB = 1'b1;
+		  nofrwrd = 2'b00,
+			  frwrdFromEXMEM = 2'b01,
+			  frwrdFromMEMWB = 2'b10;
 
-	reg frwrdReg1;
-	reg frwrdReg1Data;
-	reg frwrdReg2;
-	reg frwrdReg2Data;
 
-	initial begin frwrdReg1 = 0; frwrdReg1Data = 0; frwrdReg2Data = 0; frwrdReg2 = 0; end
+	//reg frwrdReg1;
+	//reg frwrdReg1Data;
+	//reg frwrdReg2;
+	//reg frwrdReg2Data;
+
+	initial begin regFileRead1MuxSignal = nofrwrd ;  regFileRead2MuxSignal = nofrwrd; end
 
 	always @* begin
 
 		if (regFileReadReg1 == EXMEWriteReg && operation == beqOperation && EXMEWriteSignal == 1'b1) begin
-			frwrdReg1 <= 1;
-			frwrdReg1Data <= frwrdFromEXMEM;
+//			frwrdReg1 <= 1;
+//			frwrdReg1Data <= frwrdFromEXMEM;
+			regFileRead1MuxSignal <=frwrdFromEXMEM;
 		end
 		else if (regFileReadReg1 == MEWBWriteReg && operation == beqOperation && MEWBWriteSignal == 1'b1) begin
-			frwrdReg1 <= 1;
-			frwrdReg1Data <= frwrdFromMEMWB;
+//			frwrdReg1 <= 1;
+//			frwrdReg1Data <= frwrdFromMEMWB;
+			regFileRead1MuxSignal <=frwrdFromMEMWB;
 		end
-		else frwrdReg1 <= 0;
+		else regFileRead1MuxSignal <= nofrwrd;
 		if (regFileReadReg2 == EXMEWriteReg && operation == beqOperation && EXMEWriteSignal == 1'b1) begin
-			frwrdReg2 <= 1;
-			frwrdReg2Data <= frwrdFromEXMEM;
+//			frwrdReg2 <= 1;
+//			frwrdReg2Data <= frwrdFromEXMEM;
+			regFileRead2MuxSignal <=frwrdFromEXMEM;
 		end
 		else if (regFileReadReg2 == MEWBWriteReg && operation == beqOperation && MEWBWriteSignal == 1'b1) begin
-			frwrdReg2 <= 1;
-			frwrdReg2Data <= frwrdFromMEMWB;
-		end
-		else frwrdReg2 <= 0;
+//			frwrdReg2 <= 1;
+//			frwrdReg2Data <= frwrdFromMEMWB;
+			regFileRead2MuxSignal <=frwrdFromMEMWB;
 
-		regFileRead1MuxSignal <= {frwrdReg1, frwrdReg1Data};
-		regFileRead2MuxSignal <= {frwrdReg2, frwrdReg2Data};
+		end
+		else regFileRead2MuxSignal <= nofrwrd;
+
+		//regFileRead1MuxSignal <= {frwrdReg1, frwrdReg1Data};
+//		regFileRead2MuxSignal <= {frwrdReg2, frwrdReg2Data};
 
 	end
 
