@@ -28,13 +28,15 @@ module DecodeandWBStages (input clk ,input [63:0]IFIDReg, input [70:0]MEMWBReg, 
 	wire [7:0] IDctrlSignalsNoHazard ;
 
 	// FORWARDING
-	wire [4:0] newRs;
-	wire [4:0] newRt;
+	wire [31:0] newReadData1;
+	assign newReadData1 = ;
+	wire [31:0] newReadData2;
+	assign newReadData2 = ;
 	wire [1:0] regFileRead1MuxSignal;
 	wire [1:0] regFileRead2MuxSignal;
 	diForwardingUnit diFU1(IFIDReg, EXMEReg, MEMWBReg, regFileRead1MuxSignal, regFileRead2MuxSignal);
-	mux4to1 rsMux(regFileRead1MuxSignal, rs, rs, EXMEReg [68:64], MEMWBReg [36:32], newRs);
-	mux4to1 rdMux(regFileRead2MuxSignal, rt, rt, EXMEReg [68:64], MEMWBReg [36:32], newRt);
+	mux4to1 rsMux(regFileRead1MuxSignal, newReadData1, newReadData1, EXMEMReg [31:0], MEMWBReg [31:0], newRs);
+	mux4to1 rdMux(regFileRead2MuxSignal, newReadData2, newReadData2, EXMEMReg [31:0], MEMWBReg [31:0], newRt);
 	// ********
 
 Control DecodeStageControlUnit(OPcode, RegDst, Jump, Branch, MemRead, MemtoReg,ALUOp, MemWrite, ALUSrc, RegWrite);
@@ -42,7 +44,7 @@ Control DecodeStageControlUnit(OPcode, RegDst, Jump, Branch, MemRead, MemtoReg,A
 //WBstage 
 mux WriteDataMUX (MEMWBRegmemtoreg, MEMWBRegALUresult, MEMWBRegReadData , WriteData);
 
-registerFile PipeliningRegisterFile( MEMWBRegWriteEnable , MEMWBRegWriteReg , WriteData , newRs,readData1, newRt ,readData2,  clk);
+registerFile PipeliningRegisterFile( MEMWBRegWriteEnable , MEMWBRegWriteReg , WriteData , rs,readData1, rt ,readData2,  clk);
 
 //branch
 signextend1632 decodeStageSignExtend(instruction [15:0], extendedSignal);
