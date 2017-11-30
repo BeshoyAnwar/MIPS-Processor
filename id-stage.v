@@ -29,14 +29,12 @@ module DecodeandWBStages (input clk ,input [63:0]IFIDReg, input [70:0]MEMWBReg, 
 
 	// FORWARDING
 	wire [31:0] newReadData1;
-	assign newReadData1 = ;
 	wire [31:0] newReadData2;
-	assign newReadData2 = ;
 	wire [1:0] regFileRead1MuxSignal;
 	wire [1:0] regFileRead2MuxSignal;
 	diForwardingUnit diFU1(IFIDReg, EXMEReg, MEMWBReg, regFileRead1MuxSignal, regFileRead2MuxSignal);
-	mux4to1 rsMux(regFileRead1MuxSignal, newReadData1, newReadData1, EXMEMReg [31:0], MEMWBReg [31:0], newRs);
-	mux4to1 rdMux(regFileRead2MuxSignal, newReadData2, newReadData2, EXMEMReg [31:0], MEMWBReg [31:0], newRt);
+	mux4to1 rsMux(regFileRead1MuxSignal, rs, rs, EXMEMReg [31:0], MEMWBReg [31:0], newReadData1);
+	mux4to1 rdMux(regFileRead2MuxSignal, rt, rt, EXMEMReg [31:0], MEMWBReg [31:0], newReadData2);
 	// ********
 
 Control DecodeStageControlUnit(OPcode, RegDst, Jump, Branch, MemRead, MemtoReg,ALUOp, MemWrite, ALUSrc, RegWrite);
@@ -50,7 +48,7 @@ registerFile PipeliningRegisterFile( MEMWBRegWriteEnable , MEMWBRegWriteReg , Wr
 signextend1632 decodeStageSignExtend(instruction [15:0], extendedSignal);
 ShiftLeftBranch ShiftedBranchAddress(extendedSignal ,BranchShiftedaddress);
 adder BranchAdder (PC , BranchShiftedaddress , BranchTarget );
-comparator BranchComarator (readData1 , readData2 , BranchEqual);
+comparator BranchComarator (newReadData1 , newReadData2 , BranchEqual);
 and Branch_selector ( BranchControlSignal , Branch , BranchEqual );
 
 
