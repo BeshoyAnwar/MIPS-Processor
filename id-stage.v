@@ -33,8 +33,8 @@ module DecodeandWBStages (input clk ,input [63:0]IFIDReg, input [70:0]MEMWBReg, 
 	wire [1:0] regFileRead1MuxSignal;
 	wire [1:0] regFileRead2MuxSignal;
 	diForwardingUnit diFU1(IFIDReg, EXMEReg, MEMWBReg, regFileRead1MuxSignal, regFileRead2MuxSignal);
-	mux4to1 rsMux(regFileRead1MuxSignal, rs, rs, EXMEReg [31:0], MEMWBReg [69:38], newRs);
-	mux4to1 rdMux(regFileRead2MuxSignal, rt, rt, EXMEReg [31:0], MEMWBReg [69:38], newRt);
+	mux4to1 rsMux(regFileRead1MuxSignal, rs, rs, EXMEReg [68:64], MEMWBReg [36:32], newRs);
+	mux4to1 rdMux(regFileRead2MuxSignal, rt, rt, EXMEReg [68:64], MEMWBReg [36:32], newRt);
 	// ********
 
 Control DecodeStageControlUnit(OPcode, RegDst, Jump, Branch, MemRead, MemtoReg,ALUOp, MemWrite, ALUSrc, RegWrite);
