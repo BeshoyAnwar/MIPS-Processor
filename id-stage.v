@@ -32,7 +32,7 @@ Control DecodeStageControlUnit(OPcode, RegDst, Jump, Branch, MemRead, MemtoReg,A
 //WBstage 
 mux WriteDataMUX (MEMWBRegmemtoreg, MEMWBRegALUresult, MEMWBRegReadData , WriteData);
 
-registerFile PipeliningRegisterFile( MEMWBRegWriteEnable , MEMWBRegWriteReg , WriteData , rs,readData1, rt ,readData2,  clk);
+registerFile PipeliningRegisterFile( MEMWBRegWriteEnable , MEMWBRegWriteReg , WriteData , newRs,readData1, newRt ,readData2,  clk);
 
 //branch
 signextend1632 decodeStageSignExtend(instruction [15:0], extendedSignal);
@@ -54,9 +54,11 @@ mux ControlHazardSelection (controlMUX , controlSignals , 0 , IDctrlSignalsNoHaz
 	
 	wire [1:0] regFileRead1MuxSignal;
 	wire [1:0] regFileRead2MuxSignal;
+	wire [4:0] newRs;
+	wire [4:0] newRt;
 	diForwardingUnit diFU1(IFIDReg, EXMEReg, MEMWBReg, regFileRead1MuxSignal, regFileRead2MuxSignal);
-	mux4to1 rsMux(regFileRead1MuxSignal, rs, rs, EXMEReg [68:64], MEMWBReg [36:32]);
-	mux4to1 rdMux(regFileRead2MuxSignal, rd, rd, EXMEReg [68:64], MEMWBReg [36:32]);
+	mux4to1 rsMux(regFileRead1MuxSignal, rs, rs, EXMEReg [68:64], MEMWBReg [36:32], newRs);
+	mux4to1 rdMux(regFileRead2MuxSignal, rt, rt, EXMEReg [68:64], MEMWBReg [36:32], newRt);
 
 endmodule
 
