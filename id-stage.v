@@ -58,7 +58,7 @@ mux ControlHazardSelection (controlMUX , controlSignals , 0 , IDctrlSignalsNoHaz
 	always @(posedge clk && IFIDRegHOLD ==0 )
 	begin
 
-		IDEXReg = {IDctrlSignalsNoHazard,extendedSignal,readData2,readData1,instruction};
+		IDEXReg = {IDctrlSignalsNoHazard,extendedSignal,newReadData2,newReadData1,instruction};
 
 	end
 	
