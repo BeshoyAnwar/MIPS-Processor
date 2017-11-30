@@ -20,20 +20,20 @@ module diForwardingUnit (input [63:0] IFIDReg, input [74:0] EXMEReg, input [70:0
 
 	always begin
 
-		if (readReg1 == EXMEReg [68:64] && operation == beqOperation) begin
+		if (readReg1 == EXMEReg [68:64] && operation == beqOperation && EXMEReg[74] == 1'b1) begin
 			frwrdReg1 <= 1;
 			frwrdReg1Data <= frwrdFromEXMEM;
 		end
-		else if (readReg1 == MEWBReg [36:32] && operation == beqOperation) begin
+		else if (readReg1 == MEWBReg [36:32] && operation == beqOperation && MEWBReg[37] == 1'b1) begin
 			frwrdReg1 <= 1;
 			frwrdReg1Data <= frwrdFromMEMWB;
 		end
 		else frwrdReg1 <= 0;
-		if (readReg2 == EXMEReg [68:64] && operation == beqOperation) begin
+		if (readReg2 == EXMEReg [68:64] && operation == beqOperation && EXMEReg[74] == 1'b1) begin
 			frwrdReg2 <= 1;
 			frwrdReg2Data <= frwrdFromEXMEM;
 		end
-		else if (readReg2 == MEWBReg [36:32] && operation == beqOperation) begin
+		else if (readReg2 == MEWBReg [36:32] && operation == beqOperation && MEWBReg[37] == 1'b1) begin
 			frwrdReg2 <= 1;
 			frwrdReg2Data <= frwrdFromMEMWB;
 		end
