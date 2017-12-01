@@ -17,7 +17,6 @@ module instructionFetch (input branchResult, input [31:0] branchAddrs, input sta
 
 	always @(posedge clk)
 	begin
-		#1
 		instructionFetchReg <= {instruction, pcOutput};
 	end
 
