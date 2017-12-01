@@ -23,9 +23,7 @@ wire [4:0] RegLw=;
 wire [4:0] RegSw;
 wire WriteEnable;
 wire MemToRegWrite;
-wire forwardF;
 
-wire selCh;
 wire [31:0] inCh0; 
 wire [31:0] inCh1;
 wire [31:0] selData;
@@ -37,7 +35,7 @@ end
 dataMemory d1(MemWrite, memoryAddress[4:0], WriteData, MemRead,
  memoryAddress[4:0],rdData, clk);
 forward f2(RegLw,RegSw,WriteEnable,MemToRegWrite,forwardF);
-mux (selCh,inCh0, inCh1, selData)
+mux (forwardF,inCh0, inCh1, selData)
 endmodule
 
 module memoryStageTb;
