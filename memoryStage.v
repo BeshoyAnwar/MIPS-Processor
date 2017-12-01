@@ -89,4 +89,4 @@ EXMEMReg[74]=1'b0;//RegWrite
 end
 memoryStage m1(clk,EXMEMReg,MEMWBReg);
 endmodule
-vv
+
