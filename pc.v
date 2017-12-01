@@ -2,7 +2,7 @@ module PC (output reg [31:0] nextPC , input [31:0] prevPC, input clk);
 
 initial nextPC=32'b0;
 
-always @(posedge clk)
+always @(negedge clk)
 	nextPC <= prevPC;
 
 endmodule
