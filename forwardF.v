@@ -1,6 +1,6 @@
 module forward(input [4:0] RegLw,input[4:0] RegSw,input WriteEnable,input MemToRegWrite,output forwardF);
 
-	assign forwardF=((WriteEnable==1'b1)&&(MemToRegWrite==1'b1)&&(RegLw==RegSw))?1'b1:1'b0;
+	assign forwardF=((WriteEnable==1'b1)&&(MemToRegWrite==1'b1)&&(RegLw==RegSw)&&(RegLw!=5'b00000)&&(RegSw!=5'b00000))?1'b1:1'b0;
 
 endmodule
 
