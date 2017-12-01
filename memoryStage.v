@@ -45,9 +45,9 @@ initial
 begin 
 EXMEMReg = {75 {1'b0}};
 clk = 0;
-$monitor ($time,"MemToReg %b memoryAddress %h RegWrite %d WriteRegister %b rdData %h",MemToReg ,memoryAddress ,RegWrite ,WriteRegister ,rdData);
+$monitor ($time,"MemToReg %b memoryAddress %h RegWrite %d WriteRegister %b rdData %h MEMWBReg %b",MemToReg ,memoryAddress ,RegWrite ,WriteRegister ,rdData,MEMWBReg);
 #10
-EXMEMReg[31:0]=32'h01010011;//result of ALU
+EXMEMReg[31:0]=32'h00000000;//result of ALU
 EXMEMReg[63:32]=32'h01010101;//ReadData2
 EXMEMReg[68:64]=5'b11011;//WriteReg
 EXMEMReg[71]=1'b1;//MemRead
@@ -55,7 +55,7 @@ EXMEMReg[72]=1'b1;//MemToReg
 EXMEMReg[73]=1'b0;//MemWrite
 EXMEMReg[74]=1'b0;//RegWrite
 #10
-EXMEMReg[31:0]=32'h01010111;//result of ALU
+EXMEMReg[31:0]=32'h11111111;//result of ALU
 EXMEMReg[63:32]=32'h01010101;//ReadData2
 EXMEMReg[68:64]=5'b11111;//WriteReg
 EXMEMReg[71]=1'b0;//MemRead
@@ -76,17 +76,16 @@ EXMEMReg[63:32]=32'h01010111;//ReadData2
 EXMEMReg[68:64]=5'b11000;//WriteReg
 EXMEMReg[71]=1'b1;//MemRead
 EXMEMReg[72]=1'b1;//MemToReg
-EXMEMReg[73]=1'b1;//MemWrite
+EXMEMReg[73]=1'b0;//MemWrite
 EXMEMReg[74]=1'b1;//RegWrite
 #10 //sw
-EXMEMReg[31:0]=32'h01010000;//result of ALU
+EXMEMReg[31:0]=32'h10000000;//result of ALU
 EXMEMReg[63:32]=32'h01010100;//ReadData2
 EXMEMReg[68:64]=5'b11000;//WriteReg
-EXMEMReg[71]=1'b1;//MemRead
+EXMEMReg[71]=1'b0;//MemRead
 EXMEMReg[72]=1'b0;//MemToReg
 EXMEMReg[73]=1'b1;//MemWrite
 EXMEMReg[74]=1'b0;//RegWrite
 end
 memoryStage m1(clk,EXMEMReg,MEMWBReg);
 endmodule
-
