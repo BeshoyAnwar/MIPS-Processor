@@ -6,6 +6,14 @@ module mux3To1 (input [1:0]selCh, input [31:0] inCh0, input [31:0] inCh1, input 
 
 endmodule
 
+module mux3To1_5bits (input [1:0]selCh, input [4:0] inCh0, input [4:0] inCh1, input [4:0] inCh2, output [4:0] selData);
+
+	assign selData = selCh == 2'b00 ? inCh0 : 
+                     	 selCh == 2'b01 ? inCh1 :
+			 selCh == 2'b10 ? inCh2 : 32'bx;
+
+endmodule
+
 module mux3To1Test;
 reg [1:0]selCh; reg [31:0] inCh0; reg [31:0] inCh1; reg [31:0] inCh2; wire [31:0] selData;
 initial
