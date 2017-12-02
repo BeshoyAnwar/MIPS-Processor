@@ -1,4 +1,4 @@
-module instructionFetch (input branchResult, input [31:0] branchAddrs, input stall, output reg [63:0] instructionFetchReg, input clk);
+module instructionFetch (input branchResult, input [31:0] branchAddrs, input regStall, input muxStall, output reg [63:0] instructionFetchReg, input clk);
 
 	wire [31:0] adderAddrs;
 	wire [31:0] pcInput;
@@ -8,7 +8,7 @@ module instructionFetch (input branchResult, input [31:0] branchAddrs, input sta
 
 	initial instructionFetchReg = { 64 {1'b0} };
 
-	assign muxSelection = {stall, branchResult};
+	assign muxSelection = {muxStall, branchResult};
 
 	mux4to1 addrsMux1(muxSelection, adderAddrs, branchAddrs, pcOutput, pcOutput, pcInput);
 	PC pc1 (pcOutput, pcInput, clk);
@@ -17,8 +17,10 @@ module instructionFetch (input branchResult, input [31:0] branchAddrs, input sta
 
 	always @(posedge clk)
 	begin
-		if (branchResult) instructionFetchReg <= {64 {1'b0}};
-		else instructionFetchReg <= {instruction, pcOutput};
+		if (regStall)
+			if (branchResult) instructionFetchReg <= {64 {1'b0}};
+			else instructionFetchReg <= {instruction, pcOutput};
+		else;
 	end
 
 endmodule
@@ -27,7 +29,7 @@ module instructionFetch_tb ();
 
 	reg branchResult;
 	reg [31:0] branchAddrs;
-	reg stall;
+	reg muxStall;
 	wire [63:0] instructionFetchReg;
 	reg clk;
 	
@@ -35,19 +37,19 @@ module instructionFetch_tb ();
 
 	initial begin
 
-		$monitor ("instructionFetchReg:%h branchResult: %b branchAddrs : %d stall: %b", instructionFetchReg, branchResult, branchAddrs, stall);
+		$monitor ("instructionFetchReg:%h branchResult: %b branchAddrs : %d muxStall: %b", instructionFetchReg, branchResult, branchAddrs, muxStall);
 
-		branchResult = 0; branchAddrs = { 32 {1'b0} }; stall = 0; clk = 0;
-		#28 branchResult = 0; branchAddrs = 32'd7; stall = 1;
+		branchResult = 0; branchAddrs = { 32 {1'b0} }; muxStall = 0; clk = 0;
+		#28 branchResult = 0; branchAddrs = 32'd7; muxStall = 1;
 		#5 branchResult = 1;
 		#5 branchResult = 0;
 		#90
-		#22 stall = 0;
-		#28 branchResult = 0; branchAddrs = 32'd3; stall = 1;
-		#22 stall = 0;
+		#22 muxStall = 0;
+		#28 branchResult = 0; branchAddrs = 32'd3; muxStall = 1;
+		#22 muxStall = 0;
 
 	end
 
-	instructionFetch if1(branchResult, branchAddrs, stall, instructionFetchReg, clk);
+	instructionFetch if1(branchResult, branchAddrs, muxStall, instructionFetchReg, clk);
 
 endmodule
