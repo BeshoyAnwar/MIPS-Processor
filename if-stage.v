@@ -17,8 +17,8 @@ module instructionFetch (input branchResult, input [31:0] branchAddrs, input sta
 
 	always @(posedge clk)
 	begin
-		if (branchResult) instructionFetchReg <= {instruction, pcOutput};
-		else instructionFetchReg <= {64 {1'b0}};
+		if (branchResult) instructionFetchReg <= {64 {1'b0}};
+		else instructionFetchReg <= {instruction, pcOutput};
 	end
 
 endmodule
