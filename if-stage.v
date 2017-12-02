@@ -22,7 +22,7 @@ module instructionFetch (input branchResult, input [31:0] branchAddrs, input reg
 		if (regStall == 1);
 		else begin
 			if (branchResult) instructionFetchReg <= {64 {1'b0}};
-			else instructionFetchReg <= {instruction, pcOutput};
+			else instructionFetchReg <= {instruction, adderAddrs};
 		end
 	end
 
