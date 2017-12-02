@@ -1,128 +1,146 @@
-module DecodeandWBStages (input clk ,input [63:0]IFIDReg, input [70:0]MEMWBReg, input [74:0] EXMEReg, output reg [135:0]IDEXReg , output BranchControlSignal ,output [31:0] BranchTarget ,output pcHOLD, output   IFIDRegHOLD  );
+module hazardDetectionUnit ( input [4:0]IFIDRegrs , input [4:0]IFIDRegrt , input [4:0]IDEXRegrt ,input [4:0]IDEXRegrd ,input [4:0] EXMERegwriteReg,
+ input [5:0] IFIDopcode ,input [5:0] IDEXopcode,input IDEXregwrite ,input IDEXregdst,input EXMEMregwrite , input EXMEMmemread ,
+ output reg IFIDRegHOLD , output reg pcHOLD ,output reg IFflush);
 
-	wire [31:0]PC = IFIDReg[31:0];
-	wire [31:0]instruction = IFIDReg[63:32];
-	wire [5:0] OPcode = instruction[31:26];
-	wire [4:0] rs = instruction [25:21];
-	wire [4:0] rt = instruction [20:16];
-	wire [4:0] rd = instruction [15:11];
-	wire [4:0] IDEXRegrt = IDEXReg[20:16];
-	wire [5:0] IDEXRegOPcode=IDEXReg [31:26];
-	wire IDEXmemRead = IDEXReg [134];
-	wire  RegDst, Jump, Branch, MemRead, MemtoReg, MemWrite, ALUSrc, RegWrite;
-	wire [1:0]ALUOp;
-
-	wire [31:0] extendedSignal ;
-	wire [31:0] BranchShiftedaddress;
-
-	wire MEMWBRegWriteEnable = MEMWBReg[37];
-	wire [4:0]MEMWBRegWriteReg = MEMWBReg [36:32];
-	wire [31:0]MEMWBRegReadData = MEMWBReg [31:0];
-	wire [31:0]MEMWBRegALUresult = MEMWBReg [69:38];
-	wire MEMWBRegmemtoreg= MEMWBReg [70] ;
-	wire [31:0] WriteData;
-	wire [31:0] readData1;
-	wire [31:0] readDate2;
-	wire BranchEqual;
-
-	wire [7:0] controlSignals = {RegDst, MemRead, MemtoReg, ALUOp, MemWrite, ALUSrc, RegWrite};
-	wire [7:0] IDctrlSignalsNoHazard ;
-
-// FORWARDING
-	wire [4:0] newRs;
-	wire [4:0] newRt;
-	wire [1:0] regFileRead1MuxSignal;
-	wire [1:0] regFileRead2MuxSignal;
-	wire EXMEWriteSignal = EXMEReg [74] ;
-	wire [4:0] EXMEMRegWrReg = EXMEReg [68:64] ;
-	diForwardingUnit (rs, rt , rt, EXMEWriteSignal, EXMEMRegWrReg, MEMWBRegWriteEnable , MEMWBRegWriteReg, regFileRead1MuxSignal, regFileRead2MuxSignal);
-	mux3To1_5bits rsMux(regFileRead1MuxSignal, rs,EXMEMRegWrReg,MEMWBRegWriteReg, newRs);
-	mux3To1_5bits rdMux(regFileRead2MuxSignal, rt, EXMEMRegWrReg,MEMWBRegWriteReg, newRt);
-
-	Control DecodeStageControlUnit(OPcode, RegDst, Jump, Branch, MemRead, MemtoReg,ALUOp, MemWrite, ALUSrc, RegWrite);
-
-//WBstage mux
-	mux WriteDataMUX (MEMWBRegmemtoreg, MEMWBRegALUresult, MEMWBRegReadData , WriteData);
-
-	registerFile PipeliningRegisterFile( MEMWBRegWriteEnable , MEMWBRegWriteReg , WriteData , rs,readData1, rt ,readData2,  clk);
-
-//branch
-	signextend1632 decodeStageSignExtend(instruction [15:0], extendedSignal);
-	ShiftLeftBranch ShiftedBranchAddress(extendedSignal ,BranchShiftedaddress);
-	adder BranchAdder (PC , BranchShiftedaddress , BranchTarget );
-	comparator BranchComarator (readData1 , readData2 , BranchEqual);
-	and Branch_selector ( BranchControlSignal , Branch , BranchEqual );
-
-	wire IFflush ;
-	hazardDetectionUnit IDstageHazardDetect(rs ,rt , IDEXRegrt , IDEXRegOPcode , controlMUX , IFIDRegHOLD ,  pcHOLD , IFflush );
-	mux8bits ControlHazardSelection (controlMUX , controlSignals , 0 , IDctrlSignalsNoHazard);
- 
-	always @(posedge clk )
-	begin
-
-		if(IFflush==1) IDEXReg = 136'b 0 ;
-		else IDEXReg = {IDctrlSignalsNoHazard,extendedSignal,readData2,readData1,instruction};
-
-	end
-	
-endmodule
-
-
-
-module DecodeandWBStagesTB;
-reg clk=0 ;
-wire [63:0]IFIDReg; //input
-wire [70:0]MEMWBReg; //input
-wire [74:0] EXMEReg; //input
-wire [135:0]IDEXReg ; //output
-wire BranchControlSignal ;
-wire[31:0] BranchTarget;
-wire pcHOLD ;
-wire IFIDRegHOLD ;
-//IFIDReg
-reg [31:0] IFIDRegpc ;
-reg [31:0] IFIDReginstruction ; 
-//MEMWBReg
-reg [31:0] MEMWBRegmemreaddata ;
-reg [31:0] MEMWBRegAlUresult ;
-reg [4:0] MEMWBRegwrReg ; //forward test
-reg MEMWBRegwrenable ;
-reg MEMWBRegmemtoreg ;
-//EXMEReg
-reg [31:0] EXMERegALUesult =0;
-reg [31:0] EXMERegReadData2=0;
-reg [4:0] EXMERegwrReg; //forward test
-reg EXMERegZero =0;
-reg EXMERegOverflow=0;
-reg EXMERegMemRead;
-reg EXMERegmemtoreg;
-reg EXMERegmemwrite;
-reg EXMERegregWrite;
-
-assign IFIDReg= { IFIDRegpc,IFIDReginstruction};
-assign MEMWBReg= { MEMWBRegmemreaddata , MEMWBRegwrReg , MEMWBRegwrenable , MEMWBRegAlUresult,MEMWBRegmemtoreg } ;
-assign EXMEReg = { EXMERegALUesult,EXMERegReadData2,EXMERegwrReg , EXMERegZero , EXMERegOverflow , EXMERegMemRead , EXMERegmemtoreg , EXMERegmemwrite , EXMERegregWrite};
-
-//IDEXReg (output from the prev cycle )
-wire [31:0] IDEXRegInst = IDEXReg[31:0];
-wire [4:0] IDEXRegrt = IDEXRegInst[20:16]; //for Hazard test
-wire IDEXRegMemRead = IDEXReg[134]; //for Hazaed Test
-
-always
-#5 clk=!clk;
+parameter beqOPcode = 6'b000100 ;
+parameter lwOPcode = 6'b100011 , R_format = 6'b000000 , swOPcode = 6'b101011 ;
 
 initial
 begin
-$monitor ($time , "IFIDReg=%h , MEMWBReg=%h, IDEXReg=%h , BranchControlSignal=%h , BranchTarget=%h , pcHOLD=%h " , IFIDReg, MEMWBReg, IDEXReg , BranchControlSignal , BranchTarget , pcHOLD );
+IFIDRegHOLD =0;
+pcHOLD =0;
+IFflush=0;
+end
 
-//#10
+always@(*)
+begin
+if (IFIDopcode==R_format &&((IDEXRegrt == IFIDRegrs) || (IDEXRegrt == IFIDRegrt)) && IDEXregwrite==1 && IDEXregdst ==0) //stall after lw instruction
+begin
+IFIDRegHOLD=1;
+pcHOLD=1;
+IFflush=1;
+end
+else if (IFIDopcode==swOPcode &&((IDEXRegrt == IFIDRegrs) ) && IDEXregwrite==1 && IDEXregdst ==0) //stall sw dependency on lw instruction
+begin
+IFIDRegHOLD=1;
+pcHOLD=1;
+IFflush=1;
+end
+else if (IFIDopcode==beqOPcode && ((IDEXRegrd == IFIDRegrs) || (IDEXRegrd == IFIDRegrt)) && IDEXregwrite==1 && IDEXregdst ==1) //@ beq stall after R-format instruction 
+begin
+IFIDRegHOLD=1;
+pcHOLD=1;
+IFflush=1;
+end
+else if (IFIDopcode==beqOPcode && ((EXMERegwriteReg == IFIDRegrs) || (EXMERegwriteReg == IFIDRegrt)) && EXMEMregwrite==1 && EXMEMmemread ==1) //@beq second stall after lw instruction
+begin
+IFIDRegHOLD=1;
+pcHOLD=1;
+IFflush=1;
+end
+/*else if (IDEXopcode==beqOPcode && ((IDEXRegrt == IFIDRegrs) || (IDEXRegrt == IFIDRegrt)) ) //control hazard
+begin
+IFIDRegHOLD=0;
+pcHOLD=0;
+IFflush=1;
+end*/
 
-
-
-
-
+else
+begin
+//controlMUX=0;
+IFIDRegHOLD=0;
+pcHOLD=0;
+IFflush=0;
+end
 
 end
-DecodeandWBStages ( clk ,IFIDReg, MEMWBReg, EXMEReg , IDEXReg , BranchControlSignal , BranchTarget , pcHOLD ,  IFIDRegHOLD);
 
+
+endmodule
+
+
+module hazardUnitTB ;
+
+reg [4:0]IFIDRegrs ;
+reg [4:0]IFIDRegrt ;
+reg [4:0]IDEXRegrt ;
+reg [4:0]IDEXRegrd ;
+reg [4:0] EXMERegwriteReg;
+reg [5:0] IFIDopcode ;
+reg [5:0] IDEXopcode;
+reg IDEXregwrite ;
+reg IDEXregdst;
+reg EXMEMregwrite ;
+reg EXMEMmemread ;
+
+
+
+
+wire IFIDRegHOLD;
+wire pcHOLD ;
+wire IFflush ;
+
+initial
+begin
+
+$monitor ("IFIDRegrs=%d IFIDRegrt=%d ; IDEXRegrt=%d; IDEXRegrd=%d,EXMERegwriteReg=%d,IFIDopcode=%d,IDEXopcode= %d,IDEXregwrite = %d,IDEXregdst=%d,EXMEMregwrite =%d,EXMEMmemread=%d \n IFIDRegHOLD=%d ,  pcHOLD=%d , IFflush=%d " , IFIDRegrs,IFIDRegrt,IDEXRegrt,IDEXRegrd,EXMERegwriteReg,IFIDopcode,IDEXopcode,IDEXregwrite,IDEXregdst,EXMEMregwrite,EXMEMmemread, IFIDRegHOLD ,  pcHOLD , IFflush );
+
+#10
+IFIDRegrs=7 ;
+IFIDRegrt=8 ;
+IDEXRegrt=14;
+IDEXRegrd=22;
+EXMERegwriteReg=1;
+IFIDopcode= 6'b000100 ; //beq
+IDEXopcode= 0;
+IDEXregwrite = 1;
+IDEXregdst=0;
+EXMEMregwrite =1;
+EXMEMmemread=0;
+
+
+#10
+IFIDRegrs=7 ;
+IFIDRegrt=8 ;
+IDEXRegrt=7;
+IDEXRegrd=22;
+EXMERegwriteReg=15;
+IFIDopcode= 0 ; //rformat
+IDEXopcode= 6'b100011 ; //lw
+IDEXregwrite = 1;
+IDEXregdst=0;
+EXMEMregwrite =1;
+EXMEMmemread=0;
+
+#10
+IFIDRegrs=7 ;
+IFIDRegrt=8 ;
+IDEXRegrt=7;
+IDEXRegrd=22;
+EXMERegwriteReg=15;
+IFIDopcode= 4 ; //beq
+IDEXopcode= 35 ; //lw
+IDEXregwrite = 1;
+IDEXregdst=0;
+EXMEMregwrite =1;
+EXMEMmemread=0;
+#10
+IFIDRegrs=1 ;
+IFIDRegrt=8 ;
+IDEXRegrt=1;
+IDEXRegrd=22;
+EXMERegwriteReg=0;
+IFIDopcode= 0 ; //rformat
+IDEXopcode= 35 ; //lw
+IDEXregwrite = 1;
+IDEXregdst=0;
+EXMEMregwrite =1;
+EXMEMmemread=1;
+
+end
+
+//hazardDetectionUnit  hazardUnitTEST ( IFIDRegrs , IFIDRegrt , IDEXRegrt , OPcode , IFIDRegHOLD , pcHOLD ,IFflush);
+hazardDetectionUnit  hazardUnitTEST (IFIDRegrs ,IFIDRegrt ,IDEXRegrt ,IDEXRegrd ,EXMERegwriteReg,
+IFIDopcode ,IDEXopcode,IDEXregwrite , IDEXregdst, EXMEMregwrite , EXMEMmemread , 
+IFIDRegHOLD , pcHOLD , IFflush);
 endmodule
