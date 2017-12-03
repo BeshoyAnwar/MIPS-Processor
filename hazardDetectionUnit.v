@@ -14,23 +14,29 @@ end
 
 always@(*)
 begin
-if (IFIDopcode==R_format &&((IDEXRegrt == IFIDRegrs) || (IDEXRegrt == IFIDRegrt)) && IDEXregwrite==1 && IDEXregdst ==0) //stall after lw instruction
+if (/*IFIDopcode==R_format&&*/IDEXopcode==lwOPcode &&((IDEXRegrt == IFIDRegrs) || (IDEXRegrt == IFIDRegrt)) && IDEXregwrite==1 && IDEXregdst ==0) //stall after lw instruction
 begin
 IFIDRegHOLD=1;
 pcHOLD=1;
 IFflush=1;
 end
-else if (IFIDopcode==swOPcode &&((IDEXRegrt == IFIDRegrs) ) && IDEXregwrite==1 && IDEXregdst ==0) //stall sw dependency on lw instruction
+else if (IFIDopcode==swOPcode&&IDEXopcode==lwOPcode &&((IDEXRegrt == IFIDRegrs) ) && IDEXregwrite==1 && IDEXregdst ==0) //stall sw dependency on lw instruction
 begin
 IFIDRegHOLD=1;
 pcHOLD=1;
 IFflush=1;
 end
-else if (IFIDopcode==beqOPcode && ((IDEXRegrd == IFIDRegrs) || (IDEXRegrd == IFIDRegrt)) && IDEXregwrite==1 && IDEXregdst ==1) //@ beq stall after R-format instruction 
+else if (IFIDopcode==beqOPcode && ((IDEXRegrd == IFIDRegrs) || (IDEXRegrd == IFIDRegrt))&& IDEXregdst ==1 && IDEXregwrite==1 ) //@ beq stall after R-format instruction 
 begin
 IFIDRegHOLD=1;
 pcHOLD=1;
-IFflush=1;
+IFflush=1;	
+end
+else if (IFIDopcode==beqOPcode && IDEXopcode!=lwOPcode&&((IDEXRegrt == IFIDRegrs) || (IDEXRegrt == IFIDRegrt))&& IDEXregdst ==0 && IDEXregwrite==1 ) //@ beq stall after i-format instruction 
+begin
+IFIDRegHOLD=1;
+pcHOLD=1;
+IFflush=1;	
 end
 else if (IFIDopcode==beqOPcode && ((EXMERegwriteReg == IFIDRegrs) || (EXMERegwriteReg == IFIDRegrt)) && EXMEMregwrite==1 && EXMEMmemread ==1) //@beq second stall after lw instruction
 begin
