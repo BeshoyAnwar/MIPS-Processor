@@ -1,6 +1,7 @@
-module forward(input [4:0] RegLw,input[4:0] RegSw,input WriteEnable,input memWrite,input memToReg, output [1:0]forwardF);
-assign forwardF=((WriteEnable==1'b1)&&(RegLw==RegSw)&&(RegLw!=5'b00000)&&(RegSw!=5'b00000)&&(memWrite==1'b1)&&(memToReg==1'b1))?2'b01:
-((WriteEnable==1'b1)&&(RegLw==RegSw)&&(RegLw!=5'b00000)&&(RegSw!=5'b00000)&&(memWrite==1'b1)&&(memToReg==1'b0))?2'b10:2'b00;
+
+module forward(input [4:0] RegLw,input[4:0] RegSw,input WriteEnable,input memToReg, output [1:0]forwardF);
+assign forwardF=((WriteEnable==1'b1)&&(RegLw==RegSw)&&(RegLw!=5'b00000)&&(memToReg==1'b1))?2'b01:
+((WriteEnable==1'b1)&&(RegLw==RegSw)&&(RegLw!=5'b00000)&&(memToReg==1'b0))?2'b10:2'b00;
 always @(forwardF)
 $display("forward:%d",forwardF);
 endmodule
@@ -38,5 +39,5 @@ WriteEnable=1'b1;
 memWrite=1'b1;
 memToReg=1'b0;
 end
-forward f1(RegLw,RegSw,WriteEnable,memWrite,memToReg,forwardF);
+forward f1(RegLw,RegSw,WriteEnable,memToReg,forwardF);
 endmodule
