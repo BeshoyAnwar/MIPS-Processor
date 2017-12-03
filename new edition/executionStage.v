@@ -1,4 +1,4 @@
-module executionStage (input clk,input [135:0]IDEXReg,input [37:0]MEMWBReg, output reg [74:0]EXMEMReg);
+module executionStage (input clk,input [135:0]IDEXReg,input [70:0]MEMWBReg, output reg [74:0]EXMEMReg);
 	
 	wire [31:0]instruction=IDEXReg[31:0];
 	wire signed [31:0]readData1=IDEXReg[63:32];
@@ -15,14 +15,16 @@ module executionStage (input clk,input [135:0]IDEXReg,input [37:0]MEMWBReg, outp
 	wire [4:0]EX_MEMRegisterRd=EXMEMReg[68:64];
 	wire MEM_WBRegWrite=MEMWBReg[37];
 	wire [4:0]MEM_WBRegisterRd=MEMWBReg[36:32];
-	wire [31:0]MEM_WBResult=MEMWBReg[31:0];
-	
+	wire [31:0]MEM_WBMemResult=MEMWBReg[31:0];
+	wire [31:0]MEM_WBALUResult=MEMWBReg[69:38];
+	wire MEM_WBMemToReg=MEMWBReg[70];
+
 	wire RegWrite=controlSignals[0];
 	wire ALUSrc=controlSignals[1];
-	wire MemRead=controlSignals[2];
+	wire MemWrite=controlSignals[2];
 	wire [1:0]ALUOp=controlSignals[4:3];
 	wire MemToReg=controlSignals[5];
-	wire MemWrite=controlSignals[6];
+	wire MemRead =controlSignals[6];
 	wire RegDst=controlSignals[7];
 	
 	wire [3:0]ALUcontrolSignal;
@@ -37,19 +39,20 @@ module executionStage (input clk,input [135:0]IDEXReg,input [37:0]MEMWBReg, outp
 	wire [1:0]forwardA;
 	wire [1:0]forwardB;
 	
-	mux3To1 fowardingMuxA( forwardA, readData1, MEM_WBResult, EXMEMReg[31:0], ALUFirstOperand);
-	mux3To1 fowardingMuxB( forwardB, readData2, MEM_WBResult, EXMEMReg[31:0], ALUMuxFirstOperand);
+	mux4To1 fowardingMuxA( forwardA, readData1, MEM_WBMemResult, EXMEMReg[31:0], MEM_WBALUResult, ALUFirstOperand);
+	mux4To1 fowardingMuxB( forwardB, readData2, MEM_WBMemResult, EXMEMReg[31:0], MEM_WBALUResult, ALUMuxFirstOperand);
 	mux ALUMux ( ALUSrc , ALUMuxFirstOperand , immediateExtendedField , ALUSecondOperand); 
 	ALUcontrol alucontrol(funct, ALUOp ,ALUcontrolSignal);
 	alu exeAlu ( ALUFirstOperand , ALUSecondOperand , ALUcontrolSignal, shiftAmt ,ALUResult, overflowFlag ,  ALUZeroflag );
 	mux5bits WriteRegisterMux (RegDst , ID_EXRegisterRt , ID_EXRegisterRd , writeRegister);
-	ExeForwardingUnit forwardunit( EX_MEMRegWrite, EX_MEMRegisterRd, ID_EXRegisterRs, ID_EXRegisterRt, MEM_WBRegWrite, MEM_WBRegisterRd, forwardA, forwardB);
+	ExeForwardingUnit forwardunit( EX_MEMRegWrite, EX_MEMRegisterRd, ID_EXRegisterRs, ID_EXRegisterRt, MEM_WBRegWrite, MEM_WBMemToReg, MEM_WBRegisterRd, forwardA, forwardB);
 	always @(posedge clk)
-		EXMEMReg={RegWrite,MemWrite,MemToReg,MemRead,overflowFlag,ALUZeroflag,writeRegister,readData2,ALUResult};
+		EXMEMReg={RegWrite,MemWrite,MemToReg,MemRead,overflowFlag,ALUZeroflag,writeRegister,ALUMuxFirstOperand,ALUResult};
 
 
 
 endmodule
+
 
 module executionTest();
 reg signed[135:0]IDEXReg;reg signed[37:0]MEMWBReg;
