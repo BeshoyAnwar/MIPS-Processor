@@ -28,7 +28,7 @@ MEMWBReg = {MemToReg,memoryAddress,RegWrite,WriteRegister,rdData};
 end
 dataMemory d1(MemWrite, memoryAddress[9:0], selData, MemRead,
  memoryAddress[9:0],rdData, clk);
-forward f2(MEMWBReg[36:32],WriteRegister,MEMWBReg[37],MEMWBReg[70],EXMEMReg[73],forwardF);
+forward f2(MEMWBReg[36:32],WriteRegister,MEMWBReg[37],MEMWBReg[70],forwardF);
 mux m2(forwardF,WriteData, rdData, selData);
 endmodule
 
