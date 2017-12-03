@@ -1,4 +1,4 @@
-module executionStage (input clk,input [135:0]IDEXReg,input [37:0]MEMWBReg, output reg [74:0]EXMEMReg);
+module executionStage (input clk,input [135:0]IDEXReg,input [70:0]MEMWBReg, output reg [74:0]EXMEMReg);
 	
 	wire [31:0]instruction=IDEXReg[31:0];
 	wire signed [31:0]readData1=IDEXReg[63:32];
@@ -19,10 +19,10 @@ module executionStage (input clk,input [135:0]IDEXReg,input [37:0]MEMWBReg, outp
 	
 	wire RegWrite=controlSignals[0];
 	wire ALUSrc=controlSignals[1];
-	wire MemRead=controlSignals[2];
+	wire MemWrite=controlSignals[2];
 	wire [1:0]ALUOp=controlSignals[4:3];
 	wire MemToReg=controlSignals[5];
-	wire MemWrite=controlSignals[6];
+	wire MemRead =controlSignals[6];
 	wire RegDst=controlSignals[7];
 	
 	wire [3:0]ALUcontrolSignal;
@@ -45,7 +45,7 @@ module executionStage (input clk,input [135:0]IDEXReg,input [37:0]MEMWBReg, outp
 	mux5bits WriteRegisterMux (RegDst , ID_EXRegisterRt , ID_EXRegisterRd , writeRegister);
 	ExeForwardingUnit forwardunit( EX_MEMRegWrite, EX_MEMRegisterRd, ID_EXRegisterRs, ID_EXRegisterRt, MEM_WBRegWrite, MEM_WBRegisterRd, forwardA, forwardB);
 	always @(posedge clk)
-		EXMEMReg={RegWrite,MemWrite,MemToReg,MemRead,overflowFlag,ALUZeroflag,writeRegister,readData2,ALUResult};
+		EXMEMReg={RegWrite,MemWrite,MemToReg,MemRead,overflowFlag,ALUZeroflag,writeRegister,ALUMuxFirstOperand,ALUResult};
 
 
 
