@@ -9,7 +9,7 @@ module forwardtb;
 reg[4:0] RegLw;reg[4:0] RegSw ;reg WriteEnable;reg memWrite;wire forwardF;
 initial
 begin
-$monitor($time,"RegLw %b RegSw %b WriteEnable %b MemToRegWrite %b memWrite %b forwardF %b",RegLw,RegSw ,WriteEnable,MemToRegWrite,memWrite, forwardF);
+$monitor($time,"RegLw %b RegSw %b WriteEnable %b memWrite %b forwardF %b",RegLw,RegSw ,WriteEnable,memWrite, forwardF);
 #10
 RegLw=5'b10101;
 RegSw =5'b10101;
